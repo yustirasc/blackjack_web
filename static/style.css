@@ -1,0 +1,148 @@
+body{
+
+background:#0b3d2e;
+font-family:Arial, Helvetica, sans-serif;
+color:white;
+text-align:center;
+margin:0;
+
+}
+
+.table{
+
+max-width:600px;
+margin:auto;
+padding:40px;
+
+}
+
+.hand{
+
+display:flex;
+justify-content:center;
+gap:10px;
+margin:15px;
+
+}
+
+.card{
+
+background:white;
+color:black;
+width:60px;
+height:90px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:25px;
+font-weight:bold;
+border-radius:8px;
+
+}
+
+button{
+
+background:black;
+color:white;
+border:none;
+padding:10px 20px;
+font-size:16px;
+border-radius:5px;
+cursor:pointer;
+margin:10px;
+
+}
+
+button:hover{
+
+background:#333;
+
+}
+
+.total{
+
+font-size:18px;
+margin-top:10px;
+
+}
+
+.coin{
+
+font-size:20px;
+margin-top:20px;
+
+}
+.login-box{
+
+background:#0b3d2e;
+width:300px;
+margin:auto;
+margin-top:200px;
+padding:40px;
+border-radius:10px;
+
+}
+
+.login-box input{
+
+width:100%;
+padding:10px;
+margin-top:10px;
+border:none;
+border-radius:5px;
+
+}
+
+.login-box button{
+
+width:100%;
+margin-top:20px;
+
+}
+
+/* Mengatur agar setiap area kartu punya ruang sendiri */
+.cards-section {
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Mengatur agar kartu-kartu di dalam hand berjejer rapi */
+.hand {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+/* Styling warna merah untuk kartu Wajik dan Hati */
+.card.red {
+    color: red;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #444;
+    text-align: center;
+}
+
+th {
+    background-color: #27ae60;
+}
+
+tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.input-bet {
+padding:10px 20px;
+font-size:16px;
+border-radius:5px;
+cursor:pointer;
+margin:10px;
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="login-box" style="width: 400px;">
+        <h1>TOP 10 PEMAIN</h1>
+        <table>
+            <tr>
+                <th>Peringkat</th>
+                <th>Username</th>
+                <th>Koin</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ user['username'] }}</td>
+                <td>{{ user['coin'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <a href="/new_game"><button>Kembali Main</button></a>
+    </div>
+</body>
+</html>

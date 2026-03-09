@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Blackjack</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>=
+<div class="table">
+    <h1>BLACKJACK</h1>
+    <p>Coin: {{coin}}</p>
+
+    {% if bet > 0 %}
+        <div class="cards-section">
+            <h3>Dealer</h3>
+            <div class="hand">
+                {% for k in dealer %}
+                    <div class="card {{ 'red' if k[1] in ['♦', '♥'] else '' }}">
+                        {% if loop.index == 1 %}
+                            {{k[0]}}{{k[1]}}
+                        {% else %}
+                            ?
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <hr> <div class="cards-section">
+            <h3>Kamu</h3>
+            <div class="hand">
+                {% for k in player %}
+                    <div class="card {{ 'red' if k[1] in ['♦', '♥'] else '' }}">
+                        {{k[0]}}{{k[1]}}
+                    </div>
+                {% endfor %}
+            </div>
+            <p class="total">Total: {{total}}</p>
+        </div>
+
+        <div class="buttons">
+            <form action="/hit" method="post">
+                <button type="submit">Hit</button>
+            </form>
+            <a href="/stand"><button>Stand</button></a>
+        </div>
+    {% elif coin <= 0 %}
+        <div class="bankruptcy-section">
+            <h3>Waduh, koin kamu habis! 💸</h3>
+            <a href="/claim_bonus">
+                <button type="button" style="background-color: #e67e22;">Ambil Bonus 500 Koin</button>
+            </a>
+        </div>
+
+    {% else %}
+        <div class="bet-section">
+            <h3>Pasang Taruhan untuk Mulai</h3>
+            <form action="/bet" method="post">
+                <input type="number" name="taruhan" placeholder="Masukkan taruhan" required min="1" max="{{coin}}">
+                <button type="submit">Main</button>
+            </form>
+        </div>
+    {% endif %}
+</div>
+<div style="margin-top: 20px;">
+    <a href="/leaderboard"><button style="background-color: #f1c40f; color: black;">Lihat Leaderboard</button></a>
+</div>
+<a href="/logout"><button style="background-color: #c0392b;">Logout</button></a>
+</body>
+</html>

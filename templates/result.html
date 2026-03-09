@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Blackjack</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+<div class="table">
+
+<h1>{{result}}</h1>
+
+<h3>Dealer</h3>
+
+<div class="hand">
+
+{% for k in dealer %}
+<div class="card">{{k[0]}}{{k[1]}}</div>
+{% endfor %}
+
+</div>
+
+
+<h3>Kamu</h3>
+
+<div class="hand">
+
+{% for k in player %}
+    <div class="card {{ 'red' if k[1] in ['♦', '♥'] else '' }}">
+        {{k[0]}}{{k[1]}}
+    </div>
+{% endfor %}
+</div>
+
+<p class="coin">Coin: {{coin}}</p>
+
+<a href="/new_game">
+<button>Main Lagi</button>
+</a>
+
+</div>
+
+</body>
+</html>
