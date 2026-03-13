@@ -1,48 +1,231 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<title>Blackjack</title>
-
-<link rel="stylesheet" href="/static/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack - Hasil</title>
+    <!-- FAVICON -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0b3d2e, #1a5a3a);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 15px;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        .win { background: #27ae60; }
+        .lose { background: #c0392b; }
+        .draw { background: #7f8c8d; }
+        .blackjack { background: #f1c40f; animation: sparkle 1.5s infinite; }
+        @keyframes sparkle {
+            0% { box-shadow: 0 0 10px gold; }
+            50% { box-shadow: 0 0 30px gold; }
+            100% { box-shadow: 0 0 10px gold; }
+        }
+        .hand {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        .card {
+            background: white;
+            color: black;
+            width: 70px;
+            height: 105px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+        .card.red { color: #e74c3c; }
+        .total {
+            font-size: 24px;
+            text-align: center;
+            margin: 10px 0 20px;
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+        
+        /* PROFIT BOX */
+        .profit-box {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .profit-positive {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 2px solid #2ecc71;
+        }
+        .profit-negative {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 2px solid #e74c3c;
+        }
+        .profit-zero {
+            background: rgba(149, 165, 166, 0.2);
+            color: #bdc3c7;
+            border: 2px solid #bdc3c7;
+        }
+        
+        .coin-box {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(241,196,15,0.1);
+            border-radius: 15px;
+            border: 2px solid #f1c40f;
+        }
+        .coin-value {
+            font-size: 48px;
+            font-weight: bold;
+            color: #f1c40f;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            min-width: 120px;
+            text-align: center;
+        }
+        .btn-green { background: #27ae60; }
+        .btn-yellow { background: #f1c40f; color: black; }
+        .btn-blue { background: #3498db; }
+        .btn-red { background: #e74c3c; }
+        
+        .profit-highlight {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 600px) {
+            .card { width: 50px; height: 75px; font-size: 20px; }
+            .coin-value { font-size: 36px; }
+            .btn { width: 100%; }
+        }
+    </style>
 </head>
-
 <body>
-
-<div class="table">
-
-<h1>{{result}}</h1>
-
-<h3>Dealer</h3>
-
-<div class="hand">
-
-{% for k in dealer %}
-<div class="card">{{k[0]}}{{k[1]}}</div>
-{% endfor %}
-
-</div>
-
-
-<h3>Kamu</h3>
-
-<div class="hand">
-
-{% for k in player %}
-    <div class="card {{ 'red' if k[1] in ['♦', '♥'] else '' }}">
-        {{k[0]}}{{k[1]}}
+    <div class="container">
+        <!-- Header Hasil -->
+        {% if 'BLACKJACK' in result %}
+            <h1 class="blackjack">👑 {{ result }} 👑</h1>
+        {% elif 'Menang' in result %}
+            <h1 class="win">🎉 {{ result }} 🎉</h1>
+        {% elif 'Kalah' in result or 'Bust' in result %}
+            <h1 class="lose">😢 {{ result }} 😢</h1>
+        {% else %}
+            <h1 class="draw">🤝 {{ result }} 🤝</h1>
+        {% endif %}
+        
+        <!-- DEALER -->
+        <h2 style="color: #f1c40f; text-align: center;">🏆 DEALER</h2>
+        <div class="hand">
+            {% for k in dealer %}
+                <div class="card {% if k[1] in ['♦','♥'] %}red{% endif %}">
+                    {{ k[0] }}{{ k[1] }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="total">
+            Total: <strong>{{ dealer_total }}</strong>
+        </div>
+        
+        <!-- PLAYER -->
+        <h2 style="color: #f1c40f; text-align: center;">👤 KAMU</h2>
+        <div class="hand">
+            {% for k in player %}
+                <div class="card {% if k[1] in ['♦','♥'] %}red{% endif %}">
+                    {{ k[0] }}{{ k[1] }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="total">
+            Total: <strong>{{ player_total }}</strong>
+        </div>
+        
+        <!-- ===== PROFIT BOX - MENGGUNAKAN DATA DARI PYTHON ===== -->
+        {% if profit is defined %}
+            <div class="profit-box 
+                {% if profit > 0 %}profit-positive
+                {% elif profit < 0 %}profit-negative
+                {% else %}profit-zero{% endif %}">
+                
+                <div>
+                    {% if profit > 0 %}💰 PROFIT
+                    {% elif profit < 0 %}💸 RUGI
+                    {% else %}🤝 IMPAS{% endif %}
+                </div>
+                
+                <div class="profit-highlight">
+                    {% if profit > 0 %}+{% endif %}{{ profit }}
+                </div>
+                
+                {% if 'BLACKJACK' in result and profit > taruhan %}
+                    <div style="font-size: 16px;">(Blackjack 3:2)</div>
+                {% endif %}
+            </div>
+        {% else %}
+            <!-- Fallback kalau profit tidak dikirim -->
+            <div class="profit-box profit-zero">
+                <div>ℹ️ INFO</div>
+                <div class="profit-highlight">-</div>
+            </div>
+        {% endif %}
+        
+        <!-- COIN -->
+        <div class="coin-box">
+            <div style="font-size: 18px; opacity: 0.8;">SALDO COIN</div>
+            <div class="coin-value">{{ coin }}</div>
+        </div>
+        
+        <!-- BUTTONS -->
+        <div class="buttons">
+            <a href="/new_game"><button class="btn btn-green">🎮 Main Lagi</button></a>
+            <a href="/leaderboard"><button class="btn btn-yellow">🏆 Leaderboard</button></a>
+            <a href="/history"><button class="btn btn-blue">📜 Riwayat</button></a>
+            <a href="/logout"><button class="btn btn-red">🚪 Logout</button></a>
+        </div>
     </div>
-{% endfor %}
-</div>
-
-<p class="coin">Coin: {{coin}}</p>
-
-<a href="/new_game">
-<button>Main Lagi</button>
-</a>
-
-</div>
-
 </body>
 </html>

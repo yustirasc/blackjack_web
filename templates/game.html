@@ -1,17 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<title>Blackjack</title>
-
-<link rel="stylesheet" href="/static/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Blackjack</title>
+            <!-- FAVICON -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
+<body>
 
-<body>=
+{% if bet > 0 and player|length == 2 %}
+    {% set player_blackjack = False %}
+    {% set dealer_blackjack = False %}
+    
+    {# Cek player blackjack #}
+    {% if (player[0][0] == 'A' and player[1][0] in ['10','J','Q','K']) or 
+          (player[1][0] == 'A' and player[0][0] in ['10','J','Q','K']) %}
+        {% set player_blackjack = True %}
+    {% endif %}
+    
+    {# Cek dealer blackjack (hanya kartu pertama) #}
+    {% if dealer|length == 2 %}
+        {% if (dealer[0][0] == 'A' and dealer[1][0] in ['10','J','Q','K']) or 
+              (dealer[1][0] == 'A' and dealer[0][0] in ['10','J','Q','K']) %}
+            {% set dealer_blackjack = True %}
+        {% endif %}
+    {% endif %}
+    
+    {% if player_blackjack %}
+        <div style="
+            background: linear-gradient(135deg, #f1c40f, #e67e22);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            animation: pulse 1s infinite;
+            ">
+            🎉 BLACKJACK! 🎉
+            {% if dealer_blackjack %}
+                <br> <small>Tapi dealer juga Blackjack...</small>
+            {% else %}
+                <br> <small>Pembayaran 3:2!</small>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endif %}
+
+<style>
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+        100% { transform: scale(1); }
+    }
+</style>
+
 <div class="table">
-    <h1>BLACKJACK</h1>
-    <p>Coin: {{coin}}</p>
+    <!-- LOGO DENGAN BORDER ROUNDED -->
+    <img src="/static/blackjack-logo.png" 
+         alt="Blackjack" 
+         style="width: 250px; 
+                max-width: 80%; 
+                margin: 0 auto 20px; 
+                display: block;
+                border-radius: 25px;
+                box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+                border: 2px solid #f1c40f;">
+    
+    <!-- TAMPILAN KOIN YANG DIPERBAGUS -->
+    <div style="display: inline-block; background: rgba(241, 196, 15, 0.15); padding: 8px 25px; border-radius: 50px; border: 1px solid #f1c40f; margin-bottom: 20px;">
+        <span style="font-size: 20px; font-weight: bold; color: #f1c40f;">💰 {{ coin }}</span>
+        <span style="font-size: 14px; opacity: 0.8; margin-left: 5px;"></span>
+    </div>
+
 
     {% if bet > 0 %}
         <div class="cards-section">
@@ -29,7 +93,8 @@
             </div>
         </div>
 
-        <hr> <div class="cards-section">
+        <hr> 
+        <div class="cards-section">
             <h3>Kamu</h3>
             <div class="hand">
                 {% for k in player %}
@@ -65,9 +130,17 @@
         </div>
     {% endif %}
 </div>
-<div style="margin-top: 20px;">
-    <a href="/leaderboard"><button style="background-color: #f1c40f; color: black;">Lihat Leaderboard</button></a>
+
+<div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap;">
+    <!-- TOMBOL ADMIN - HANYA UNTUK ADMIN -->
+    {% if session['username'] == 'admin123' %}
+    <a href="/admin"><button style="background-color: #e67e22;">🛡️ Admin Panel</button></a>
+    {% endif %}
+    
+    <a href="/profile"><button style="background-color: #9b59b6;">👤 Profil</button></a>
+    <a href="/leaderboard"><button style="background-color: #f1c40f; color: black;">🏆 Leaderboard</button></a>
+    <a href="/logout"><button style="background-color: #c0392b;">⍈ Logout</button></a>
 </div>
-<a href="/logout"><button style="background-color: #c0392b;">Logout</button></a>
+
 </body>
 </html>

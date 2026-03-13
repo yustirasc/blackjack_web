@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Permainan</title>
+        <!-- FAVICON -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .history-table th {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px;
+        }
+        .history-table td {
+            padding: 8px;
+            border-bottom: 1px solid #444;
+        }
+        .profit-positive {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        .profit-negative {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .menu-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 600px) {
+            .history-table {
+                font-size: 12px;
+            }
+            .history-table th, 
+            .history-table td {
+                padding: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box" style="width: 90%; max-width: 800px; overflow-x: auto;">
+        <h1>RIWAYAT PERMAINAN</h1>
+        
+        {% if history %}
+        <table class="history-table">
+            <tr>
+                <th>No</th>
+                <th>Hasil</th>
+                <th>Taruhan</th>
+                <th>Profit</th>
+                <th>Waktu</th>
+            </tr>
+            {% for h in history %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ h['result'] }}</td>
+                <td>{{ h['bet_amount'] }}</td>
+                <td class="{% if h['profit'] > 0 %}profit-positive{% elif h['profit'] < 0 %}profit-negative{% endif %}">
+                    {% if h['profit'] > 0 %}+{% endif %}{{ h['profit'] }}
+                </td>
+                <td>{{ h['created_at'][:16] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p style="text-align: center; padding: 20px;">Belum ada history permainan. Ayo main dulu!</p>
+        {% endif %}
+        
+        <div class="menu-buttons">
+            <a href="/new_game"><button style="background-color: #27ae60;">Main Lagi</button></a>
+            <a href="/leaderboard"><button style="background-color: #f1c40f; color: black;">Leaderboard</button></a>
+            <a href="/logout"><button style="background-color: #c0392b;">Logout</button></a>
+        </div>
+    </div>
+</body>
+</html>

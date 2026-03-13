@@ -1,132 +1,144 @@
-body{
+/* style.css - Optimasi Mobile */
 
-background:#0b3d2e;
-font-family:Arial, Helvetica, sans-serif;
-color:white;
-text-align:center;
-margin:0;
+/* Tambahkan viewport meta tag di setiap HTML */
+/* <meta name="viewport" content="width=device-width, initial-scale=1.0"> */
 
-}
-
-.table{
-
-max-width:600px;
-margin:auto;
-padding:40px;
-
-}
-
-.hand{
-
-display:flex;
-justify-content:center;
-gap:10px;
-margin:15px;
-
-}
-
-.card{
-
-background:white;
-color:black;
-width:60px;
-height:90px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:25px;
-font-weight:bold;
-border-radius:8px;
-
-}
-
-button{
-
-background:black;
-color:white;
-border:none;
-padding:10px 20px;
-font-size:16px;
-border-radius:5px;
-cursor:pointer;
-margin:10px;
-
-}
-
-button:hover{
-
-background:#333;
-
-}
-
-.total{
-
-font-size:18px;
-margin-top:10px;
-
-}
-
-.coin{
-
-font-size:20px;
-margin-top:20px;
-
-}
-.login-box{
-
-background:#0b3d2e;
-width:300px;
-margin:auto;
-margin-top:200px;
-padding:40px;
-border-radius:10px;
-
-}
-
-.login-box input{
-
-width:100%;
-padding:10px;
-margin-top:10px;
-border:none;
-border-radius:5px;
-
-}
-
-.login-box button{
-
-width:100%;
-margin-top:20px;
-
-}
-
-/* Mengatur agar setiap area kartu punya ruang sendiri */
-.cards-section {
-    margin: 20px 0;
+body {
+    background: #0b3d2e;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
     text-align: center;
+    margin: 0;
+    padding: 10px; /* Tambah padding untuk mobile */
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
-/* Mengatur agar kartu-kartu di dalam hand berjejer rapi */
+.table {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px; /* Kurangi padding untuk mobile */
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .hand {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    gap: 5px; /* Kurangi gap untuk mobile */
+    margin: 10px 0;
+    flex-wrap: wrap; /* Biarkan kartu wrap jika perlu */
 }
 
-/* Styling warna merah untuk kartu Wajik dan Hati */
-.card.red {
-    color: red;
+.card {
+    background: white;
+    color: black;
+    width: 50px; /* Ukuran lebih kecil untuk mobile */
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px; /* Font lebih kecil */
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
+
+/* Ukuran kartu untuk tablet */
+@media (min-width: 768px) {
+    .card {
+        width: 60px;
+        height: 90px;
+        font-size: 24px;
+    }
+}
+
+button {
+    background: black;
+    color: white;
+    border: none;
+    padding: 12px 24px; /* Padding lebih besar untuk mudah disentuh */
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 8px;
+    min-width: 120px; /* Minimal lebar untuk mobile */
+    touch-action: manipulation; /* Optimasi untuk touch */
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:hover {
+    background: #333;
+}
+
+/* Button container untuk mobile */
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.total {
+    font-size: 18px;
+    margin: 15px 0;
+}
+
+.coin {
+    font-size: 20px;
+    margin: 20px 0;
+}
+
+/* Login box - mobile first */
+.login-box {
+    background: #0b3d2e;
+    width: 90%; /* Gunakan persentase */
+    max-width: 350px;
+    margin: 20px auto;
+    padding: 30px 20px;
+    border-radius: 15px;
+    box-sizing: border-box;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.login-box button {
+    width: 100%;
+    margin: 10px 0;
+    min-width: auto; /* Reset min-width untuk button di login */
+}
+
+/* Input taruhan */
+input[name="taruhan"] {
+    width: 100%;
+    max-width: 200px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+
+/* Table leaderboard - responsive */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin: 15px 0;
     color: white;
+    font-size: 14px; /* Ukuran font lebih kecil untuk mobile */
 }
 
 th, td {
-    padding: 10px;
+    padding: 12px 5px;
     border-bottom: 1px solid #444;
     text-align: center;
 }
@@ -135,14 +147,303 @@ th {
     background-color: #27ae60;
 }
 
-tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.1);
+/* Sections */
+.cards-section {
+    margin: 15px 0;
+    text-align: center;
 }
 
-.input-bet {
-padding:10px 20px;
-font-size:16px;
-border-radius:5px;
-cursor:pointer;
-margin:10px;
+.bet-section, .bankruptcy-section {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+}
+
+/* Form di bet-section */
+.bet-section form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Warna merah untuk kartu */
+.card.red {
+    color: #e74c3c; /* Warna merah lebih cerah */
+}
+
+/* Link styling */
+a {
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Optimasi untuk layar sangat kecil */
+@media (max-width: 480px) {
+    .card {
+        width: 45px;
+        height: 65px;
+        font-size: 18px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    h3 {
+        font-size: 18px;
+    }
+    
+    .login-box {
+        width: 95%;
+        padding: 20px 15px;
+    }
+    
+    button {
+        padding: 10px 20px;
+        font-size: 14px;
+        min-width: 100px;
+    }
+}
+
+/* Animasi smooth */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Animasi untuk kartu */
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Animasi untuk button */
+button {
+    transition: all 0.3s;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* Loading animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Recent Games - Improved Version */
+.recent-games {
+    margin-top: 40px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.recent-games h2 {
+    margin-bottom: 20px;
+    color: #f1c40f;
+    border-bottom: 2px solid rgba(241, 196, 15, 0.3);
+    padding-bottom: 10px;
+}
+
+/* Header untuk recent games */
+.recent-games-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 15px;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px 10px 0 0;
+    font-weight: bold;
+    color: #f1c40f;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+/* Game item dengan grid yang rapi */
+.game-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 15px;
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.game-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Hasil permainan */
+.game-result {
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.result-win {
+    background: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+    border: 1px solid #2ecc71;
+}
+
+.result-loss {
+    background: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+}
+
+.result-draw {
+    background: rgba(241, 196, 15, 0.2);
+    color: #f1c40f;
+    border: 1px solid #f1c40f;
+}
+
+/* Taruhan */
+.game-bet {
+    text-align: right;
+    font-weight: bold;
+}
+
+.bet-label {
+    display: none; /* Hide on desktop */
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+}
+
+.bet-value {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+/* Profit */
+.game-profit {
+    text-align: right;
+    font-weight: bold;
+}
+
+.profit-label {
+    display: none; /* Hide on desktop */
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+}
+
+.profit-value {
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.profit-positive .profit-value {
+    background: rgba(46, 204, 113, 0.2);
+}
+
+.profit-negative .profit-value {
+    background: rgba(231, 76, 60, 0.2);
+}
+
+/* Tanggal */
+.game-date {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+/* Responsive untuk mobile */
+@media (max-width: 768px) {
+    .recent-games-header {
+        display: none; /* Hide header on mobile */
+    }
+    
+    .game-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .game-result {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    
+    .bet-label, .profit-label {
+        display: inline-block;
+        margin-right: 5px;
+    }
+    
+    .game-bet, .game-profit, .game-date {
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .game-date {
+        text-align: left;
+        justify-content: space-between;
+    }
+    
+    .bet-value, .profit-value {
+        display: inline-block;
+    }
+}
+
+/* Untuk tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .recent-games-header {
+        grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+        font-size: 12px;
+    }
+    
+    .game-item {
+        grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+        gap: 10px;
+        font-size: 13px;
+    }
+    
+    .game-result {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+}
+
+.logo {
+    width: 250px;
+    max-width: 80%;
+    margin: 20px auto;
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    transition: transform 0.3s;
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }

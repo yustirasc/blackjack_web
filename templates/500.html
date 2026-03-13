@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kesalahan Server</title>
+        <!-- FAVICON -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .error-container {
+            max-width: 500px;
+            margin: 100px auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        h1 { font-size: 72px; margin: 0; color: #e74c3c; }
+        h2 { font-size: 32px; margin: 10px 0; }
+        p { font-size: 18px; opacity: 0.8; margin-bottom: 30px; }
+        .btn {
+            padding: 12px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>500</h1>
+        <h2>Kesalahan Server</h2>
+        <p>Maaf, terjadi kesalahan pada server. Silakan coba lagi nanti.</p>
+        <a href="/" class="btn">Kembali ke Login</a>
+    </div>
+</body>
+</html>

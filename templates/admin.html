@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Blackjack</title>
+            <!-- FAVICON -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+    
+    <style>
+        .admin-container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 25px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+        }
+        
+        h1 {
+            color: #f1c40f;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .admin-table th {
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+        }
+        
+        .admin-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+        
+        .admin-table tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .input-small {
+            width: 80px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        
+        .btn-add {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .btn-back {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        
+        .warning {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .admin-badge {
+            background: #f1c40f;
+            color: black;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>👑 ADMIN PANEL</h1>
+        <p style="text-align: center; opacity: 0.8;">Selamat datang, <strong>admin123</strong>! Anda dapat menambah chip atau menghapus user.</p>
+        
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Coin</th>
+                    <th>Member Sejak</th>
+                    <th colspan="2">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user['id'] }}</td>
+                    <td>
+                        {{ user['username'] }}
+                        {% if user['username'] == 'admin123' %}
+                            <span class="admin-badge">ADMIN</span>
+                        {% endif %}
+                    </td>
+                    <td><strong>{{ user['coin'] }}</strong></td>
+                    <td>{{ user['created_at'][:10] if user['created_at'] else 'N/A' }}</td>
+                    
+                    <!-- Form tambah chip -->
+                    <td>
+                        <form action="/admin/add_chip" method="post" style="display: flex; gap: 5px;">
+                            <input type="hidden" name="username" value="{{ user['username'] }}">
+                            <input type="number" name="jumlah" placeholder="Jumlah" min="1" class="input-small" required>
+                            <button type="submit" class="btn-add">➕ Tambah</button>
+                        </form>
+                    </td>
+                    
+                    <!-- Tombol hapus (kecuali admin sendiri) -->
+                    <td>
+                        {% if user['username'] != 'admin123' %}
+                        <form action="/admin/delete_user" method="post" onsubmit="return confirm('Yakin ingin menghapus user {{ user['username'] }}? Semua data akan hilang!');">
+                            <input type="hidden" name="username" value="{{ user['username'] }}">
+                            <button type="submit" class="btn-delete">🗑️ Hapus</button>
+                        </form>
+                        {% else %}
+                        <span style="opacity:0.5;">-</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div style="text-align: center;">
+            <a href="/game" class="btn-back">⬅️ Kembali ke Game</a>
+            <a href="/leaderboard" class="btn-back" style="background-color: #f1c40f; color: black;">🏆 Leaderboard</a>
+        </div>
+    </div>
+</body>
+</html>

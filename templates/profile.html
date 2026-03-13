@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Profil {{ user['username'] }}</title>
+        <!-- FAVICON -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0b3d2e, #1a5a3a);
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            padding: 15px;
+        }
+
+        .profile-container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Header Profil */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            flex-wrap: wrap;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border: 4px solid #f1c40f;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-info h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            color: #f1c40f;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .profile-info p {
+            font-size: 18px;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-icon {
+            font-size: 24px;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Stats Grid - YANG DIPERBAIKI */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #f1c40f;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .profit-positive {
+            color: #2ecc71;
+        }
+
+        .profit-negative {
+            color: #e74c3c;
+        }
+
+        .text-gold {
+            color: #f1c40f;
+        }
+
+        .text-green {
+            color: #2ecc71;
+        }
+
+        .text-red {
+            color: #e74c3c;
+        }
+
+        /* Recent Games - YANG DIPERBAIKI */
+        .recent-games {
+            margin-top: 40px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .recent-games h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #f1c40f;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 10px;
+        }
+
+        .games-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .games-table th {
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .games-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .games-table tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .games-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .result-win {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+
+        .result-loss {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+
+        .result-draw {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
+            border: 1px solid #f1c40f;
+        }
+
+        .result-blackjack {
+            background: linear-gradient(135deg, #f1c40f, #e67e22);
+            color: white;
+            border: none;
+        }
+
+        /* Menu Buttons */
+        .menu-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 140px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-main {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+        }
+
+        .btn-leaderboard {
+            background: linear-gradient(135deg, #f1c40f, #e67e22);
+            color: white;
+        }
+
+        .btn-history {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .btn-profile {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-info h1 {
+                font-size: 32px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-value {
+                font-size: 28px;
+            }
+
+            .games-table {
+                font-size: 14px;
+            }
+
+            .games-table th,
+            .games-table td {
+                padding: 10px 5px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 48px;
+            }
+
+            .games-table {
+                font-size: 12px;
+            }
+
+            .result-badge {
+                font-size: 11px;
+                padding: 3px 8px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .profile-container {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .stat-card {
+            animation: fadeIn 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        {% for i in range(1, 10) %}
+        .stat-card:nth-child({{ i }}) { animation-delay: {{ i * 0.05 }}s; }
+        {% endfor %}
+    </style>
+</head>
+<body>
+<div class="profile-container">
+    <!-- HEADER PROFIL -->
+    <div class="profile-header">
+        <div class="profile-avatar">
+            {{ user['username'][0]|upper }}
+        </div>
+        <div class="profile-info">
+            <h1>
+                {{ user['username'] }}
+                {% if user['username'] == 'admin123' %}
+                    <span style="font-size: 16px; background: #f1c40f; color: black; padding: 5px 10px; border-radius: 20px; margin-left: 10px;">🛡️ ADMIN</span>
+                {% endif %}
+            </h1>
+            <p><span class="info-icon">💰</span>{{ user['coin'] }}</p>
+            <p><span class="info-icon">📅</span> <strong>Member sejak:</strong> 
+                {% if user['created_at'] %}
+                    {{ user['created_at'][:10] }}
+                {% else %}
+                    {{ user['id'] }}
+                {% endif %}
+                
+                <!-- BADGE -->
+                <div class="badge-container">
+                    {% if stats and stats['total_games'] > 0 %}
+                        {% if stats['wins'] / stats['total_games'] >= 0.6 %}
+                        <span class="badge">🏆 Pro Player</span>
+                        {% endif %}
+                        
+                        {% if stats['total_profit'] > 1000 %}
+                        <span class="badge">💰 Jutawan</span>
+                        {% endif %}
+                        
+                        {% if stats['blackjack_wins'] >= 5 %}
+                        <span class="badge">🃏 Blackjack Master</span>
+                        {% endif %}
+                        
+                        {% if stats['total_games'] >= 20 %}
+                        <span class="badge">🎮 Veteran</span>
+                        {% endif %}
+                    {% else %}
+                        <span class="badge">🆕 Newbie</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- STATISTIK GRID - YANG RAPI -->
+        {% if stats %}
+        <div class="stats-grid">
+            <!-- Baris 1 -->
+            <div class="stat-card">
+                <div class="stat-value text-gold">{{ stats['total_games']|default(0) }}</div>
+                <div class="stat-label">Total Main</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value text-green">{{ stats['wins']|default(0) }}</div>
+                <div class="stat-label">Menang</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value text-red">{{ stats['losses']|default(0) }}</div>
+                <div class="stat-label">Kalah</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value">{{ stats['draws']|default(0) }}</div>
+                <div class="stat-label">Seri</div>
+            </div>
+            
+            <!-- Baris 2 -->
+            <div class="stat-card">
+                <div class="stat-value text-gold">{{ stats['blackjack_wins']|default(0) }}</div>
+                <div class="stat-label">Blackjack</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value {% if stats['total_profit']|default(0) >= 0 %}profit-positive{% else %}profit-negative{% endif %}">
+                    {{ stats['total_profit']|default(0) }}
+                </div>
+                <div class="stat-label">Total Profit</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value">{{ stats['avg_bet']|default(0)|int }}</div>
+                <div class="stat-label">Rata-rata Bet</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value profit-positive">{{ stats['max_win']|default(0) }}</div>
+                <div class="stat-label">Max Win</div>
+            </div>
+            
+            <!-- Baris 3 -->
+            <div class="stat-card">
+                <div class="stat-value profit-negative">{{ stats['max_loss']|default(0) }}</div>
+                <div class="stat-label">Max Loss</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value text-gold">
+                    {% if stats['total_games']|default(0) > 0 %}
+                        {{ ((stats['wins'] + stats['blackjack_wins']|default(0)) / stats['total_games'] * 100)|int }}%
+                    {% else %}
+                        0%
+                    {% endif %}
+                </div>
+                <div class="stat-label">Win Rate</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value">{{ stats['total_games']|default(0) }}</div>
+                <div class="stat-label">Total Game</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value">{{ user['coin'] }}</div>
+                <div class="stat-label">Current Coin</div>
+            </div>
+        </div>
+        {% else %}
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Total Main</div>
+            </div>
+            <div class="stat-card" style="grid-column: span 3;">
+                <div class="stat-value">📊</div>
+                <div class="stat-label">Belum ada data. Ayo main!</div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- RECENT GAMES - 5 PERMAINAN TERAKHIR -->
+        {% if recent_games %}
+        <div class="recent-games">
+            <h2>📊 5 Permainan Terakhir</h2>
+            
+            <table class="games-table">
+                <thead>
+                    <tr>
+                        <th>Hasil</th>
+                        <th>Taruhan</th>
+                        <th>Profit</th>
+                        <th>Waktu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for game in recent_games %}
+                    <tr>
+                        <td>
+                            <span class="result-badge 
+                                {% if 'BLACKJACK' in game['result'] %}result-blackjack
+                                {% elif 'Menang' in game['result'] %}result-win
+                                {% elif 'Kalah' in game['result'] or 'Bust' in game['result'] %}result-loss
+                                {% else %}result-draw{% endif %}">
+                                {{ game['result'] }}
+                            </span>
+                        </td>
+                        <td><strong>{{ game['bet_amount'] }}</strong></td>
+                        <td class="{% if game['profit'] > 0 %}profit-positive{% elif game['profit'] < 0 %}profit-negative{% endif %}">
+                            <strong>{% if game['profit'] > 0 %}+{% endif %}{{ game['profit'] }}</strong>
+                        </td>
+                        <td>{{ game['created_at'][:16] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="recent-games">
+            <h2>📊 5 Permainan Terakhir</h2>
+            <p style="text-align: center; padding: 30px; background: rgba(0,0,0,0.2); border-radius: 10px;">
+                Belum ada permainan. Yuk main dulu!
+            </p>
+        </div>
+        {% endif %}
+
+        <!-- MENU BUTTONS -->
+<div class="menu-buttons">
+    <!-- TOMBOL GANTI PASSWORD -->
+    <a href="/change_password">
+        <button class="btn" style="background: linear-gradient(135deg, #f39c12, #e67e22);">
+            🔑 Ganti Password
+        </button>
+    </a>
+    
+    <a href="/new_game">
+        <button class="btn btn-main">🎮 Main Lagi</button>
+    </a>
+    <a href="/history">
+        <button class="btn btn-history">📜 Riwayat</button>
+    </a>
+    <a href="/logout">
+        <button class="btn btn-logout">⍈ Logout</button>
+    </a>
+</div>
+    </div>
+</body>
+</html>
